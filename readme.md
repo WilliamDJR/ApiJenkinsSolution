@@ -94,9 +94,17 @@ pipeline {
             }
         }
         
-        stage('Build and Test') {
+        stage('Build') {
             steps{
                 sh 'mvn -f ./apis/user-java/pom.xml package'
+            }
+        }
+        
+        stage('Test') {
+            steps{
+                dir('./apis/user-java/') {
+                  sh 'mvn test'
+                }
             }
         }
         

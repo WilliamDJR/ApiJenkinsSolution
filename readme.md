@@ -275,3 +275,22 @@ pipeline {
     }
 }
 ```
+
+## Install DotNet SDK 3.1
+
+Open a terminal and run the following commands to setup the 20.04 repositories
+
+```bash
+ sudo wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+ sudo dpkg -i packages-microsoft-prod.deb
+```
+
+Install the .NET Core SDK
+
+```bash
+ sudo add-apt-repository universe
+ sudo apt-get update
+ sudo apt-get install apt-transport-https
+ sudo apt-get update
+ sudo apt-get install dotnet-sdk-3.1
+```

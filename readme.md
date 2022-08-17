@@ -41,7 +41,7 @@ pipeline {
         stage('Git checkout') {
             steps{
                 // Get source code from a GitHub repository
-                git branch:'main', url:'https://github.com/Azure-Samples/openhack-devops-team.git'
+                git branch:'main', url:'https://github.com/RayMaAU/openhack-devops-team.git'
             }
         }
         
@@ -90,7 +90,7 @@ pipeline {
         stage('Git checkout') {
             steps{
                 // Get source code from a GitHub repository
-                git branch:'main', url:'https://github.com/Azure-Samples/openhack-devops-team.git'
+                git branch:'main', url:'https://github.com/RayMaAU/openhack-devops-team.git'
             }
         }
         
@@ -152,7 +152,7 @@ pipeline {
         stage('Git checkout') {
             steps{
                 // Get source code from a GitHub repository
-                git branch:'main', url:'https://github.com/Azure-Samples/openhack-devops-team.git'
+                git branch:'main', url:'https://github.com/RayMaAU/openhack-devops-team.git'
             }
         }
         
@@ -239,7 +239,7 @@ pipeline {
         stage('Git checkout') {
             steps{
                 // Get source code from a GitHub repository
-                git branch:'main', url:'https://github.com/Azure-Samples/openhack-devops-team.git'
+                git branch:'main', url:'https://github.com/RayMaAU/openhack-devops-team.git'
             }
         }
         

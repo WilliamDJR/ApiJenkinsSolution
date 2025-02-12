@@ -210,9 +210,26 @@ pipeline {
 
 ## next-with-jest
 
-If you've installed NodeJS via [nvm](https://nodejs.org/en/download), soft link the `node` `npm` `npx` to system PATH
+Install NodeJS via [nvm](https://nodejs.org/en/download) for user `jenkins`, soft link the `node` `npm` `npx` to system PATH
 
 ```sh
+# Switch to user jenkins
+sudo -i
+su jenkins
+
+# Install npm by nvm
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+# in lieu of restarting the shell
+\. "$HOME/.nvm/nvm.sh"
+# Download and install Node.js:
+nvm install 22
+# Verify the Node.js version:
+node -v # Should print "v22.14.0".
+nvm current # Should print "v22.14.0".
+# Verify npm version:
+npm -v # Should print "10.9.2".
+
+# Soft link npm and node to system PATH
 sudo rm /usr/local/bin/npm /usr/local/bin/npx /usr/local/bin/node
 sudo ln -s $(which npm)  /usr/local/bin/npm
 sudo ln -s $(which npx)  /usr/local/bin/npx
@@ -223,7 +240,10 @@ sudo ln -s $(which node)  /usr/local/bin/node
 
 ```sh
 pipeline {
-    agent any
+    // use agent any if you don't have multiple nodes installed
+    agent {
+        label 'built-in'
+    }
 
     stages {
         stage('Git checkout') {
@@ -246,12 +266,34 @@ pipeline {
             }
         }
         
-        stage('Publish') {
-            steps{
-                sh 'ls -la .'
+        stage('Build Image') {
+            steps {
+                sh 'sudo docker build -t willido/sample-app:jks .'
             }
         }
+        
+        stage('Publish Image') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub_william', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+                    sh '''
+                        sudo docker login -u $USERNAME -p $PASSWORD
+                        sudo docker image push willido/sample-app:jks
+                    '''
+                }
+            }
+        } 
+        
+        stage('Deploy Image') {
+            steps {
+                    sh '''
+                        docker rm -f sample-app-container 2>/dev/null || true
+                        docker run -d --name sample-app-container -p 3000:3000 willido/sample-app:jks
+                    '''
+            }
+        } 
+        
     }
+    
     post {
       always {
         cleanWs()

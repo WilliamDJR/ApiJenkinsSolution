@@ -31,6 +31,25 @@ sudo apt-get update; \
 >
 > Please note, you need to have the v3.1 to build this application.
 
+### Install DotNet SDK 3.1
+
+Open a terminal and run the following commands to setup the 20.04 repositories
+
+```bash
+ sudo wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+ sudo dpkg -i packages-microsoft-prod.deb
+```
+
+Install the .NET Core SDK
+
+```bash
+ sudo add-apt-repository universe
+ sudo apt-get update
+ sudo apt-get install apt-transport-https
+ sudo apt-get update
+ sudo apt-get install dotnet-sdk-3.1
+```
+
 **Build Pipeline**
 
 ```sh
@@ -192,7 +211,7 @@ pipeline {
 
 ## next-with-jest
 
-If you've installed NodeJS via nvm, soft link the `node` `npm` `npx` to system PATH
+If you've installed NodeJS via [nvm](https://nodejs.org/en/download), soft link the `node` `npm` `npx` to system PATH
 
 ```sh
 sudo rm /usr/local/bin/npm /usr/local/bin/npx /usr/local/bin/node
@@ -240,23 +259,4 @@ pipeline {
       }
     }
 }
-```
-
-## Install DotNet SDK 3.1
-
-Open a terminal and run the following commands to setup the 20.04 repositories
-
-```bash
- sudo wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
- sudo dpkg -i packages-microsoft-prod.deb
-```
-
-Install the .NET Core SDK
-
-```bash
- sudo add-apt-repository universe
- sudo apt-get update
- sudo apt-get install apt-transport-https
- sudo apt-get update
- sudo apt-get install dotnet-sdk-3.1
 ```

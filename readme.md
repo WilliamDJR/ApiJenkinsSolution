@@ -190,44 +190,16 @@ pipeline {
 }
 ```
 
-## userprofile
+## next-with-jest
 
-As a NodeJS application you need to:
-
-```sh
-sudo apt-get update
-sudo apt install nodejs
-sudo apt install npm
-```
-
-Verify that you've installed them by executing the following command:
+If you've installed NodeJS via nvm, soft link the `node` `npm` `npx` to system PATH
 
 ```sh
-nodejs -v
-npm -v
+sudo rm /usr/local/bin/npm /usr/local/bin/npx /usr/local/bin/node
+sudo ln -s $(which npm)  /usr/local/bin/npm
+sudo ln -s $(which npx)  /usr/local/bin/npx
+sudo ln -s $(which node)  /usr/local/bin/node
 ```
-
-> NOTE
->
-> Make sure you installed the Latest NodeJS LTS Version: 16.13.2 (includes npm 8.1.2).
-
-Alternatively, you could follow this [instruction](https://github.com/nodesource/distributions#deb) to install them by executing the following command:
-
-```sh
-curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
-sudo apt-get install -y nodejs
-
-node -v
-npm -v
-```
-
-In some cases, you may  need to update your Jenkins PATH by configuring it's environment variables:
-
-```sh
-PATH+EXTRA=/usr/local/nodejs/node-v16.13.2-linux-x64/bin/
-```
-
-![Alt text](./images/jenkins-add-path.jpg?raw=true)
 
 **Build Pipeline**
 
@@ -238,40 +210,34 @@ pipeline {
     stages {
         stage('Git checkout') {
             steps{
-                // Get source code from a GitHub repository
-                git branch:'main', url:'https://github.com/RayMaAU/openhack-devops-team.git'
+                git branch:'master', url:'https://github.com/WilliamDJR/next-with-jest.git'
             }
         }
         
         stage('npm install') {
             steps{
-                dir("./apis/userprofile/") {
-                    sh 'npm install'
-                }
+                    sh '''
+                    ls
+                    npm install'''
             }
         }
         
         stage('Tests') {
             steps{
-                dir("./apis/userprofile/") {
                     sh 'npm test'
-                }
             }
         }
         
-        stage('npm coverage') {
-            steps{
-                dir("./apis/userprofile/") {
-                    sh 'npm run cover'
-                }
-            }
-        }
-
         stage('Publish') {
             steps{
-                sh 'ls -la ./apis/userprofile/'
+                sh 'ls -la .'
             }
         }
+    }
+    post {
+      always {
+        cleanWs()
+      }
     }
 }
 ```

@@ -91,49 +91,48 @@ pipeline {
 
 ## user-java
 
-As a Maven Java application it uses Spring framework, this is all you need:
-
-```sh
-sudo apt install maven
-```
-
-The latest v3.3.9 should work for this application.
+The application is for Java 11. We will use a docker agent for this example pipeline, so even you only have Java 17 installed you can still get the right results
 
 **Build Pipeline**
 
 ```sh
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'maven:3.8.8-eclipse-temurin-11'  // Use Maven with Java 11
+            args '--rm'
+        }
+    }
 
     stages {
-        stage('Git checkout') {
-            steps{
-                // Get source code from a GitHub repository
-                git branch:'main', url:'https://github.com/RayMaAU/openhack-devops-team.git'
+        stage('Git Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/RayMaAU/openhack-devops-team.git'
             }
         }
         
         stage('Build') {
-            steps{
+            steps {
                 sh 'mvn -f ./apis/user-java/pom.xml package'
             }
         }
         
         stage('Test') {
-            steps{
+            steps {
                 dir('./apis/user-java/') {
-                  sh 'mvn test'
+                    sh 'mvn test'
                 }
             }
         }
         
         stage('Publish') {
-            steps{
+            steps {
                 sh 'ls -la ./apis/user-java/target/'
             }
         }
     }
 }
+
 ```
 
 ## trips

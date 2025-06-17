@@ -2,52 +2,21 @@
 
 ## poi
 
-This is a DotNet Core application, the framework version is .netcore 3.1. You need to install the SDK on your Jenkins node.
+This is a DotNet Core application, the framework version is .netcore 9.0. You need to install the SDK on your Jenkins node.
 
-Download link: https://docs.microsoft.com/en-us/dotnet/core/install/linux-ubuntu
+Download link: [https://docs.microsoft.com/en-us/dotnet/core/install/linux-ubuntu](https://learn.microsoft.com/en-us/dotnet/core/install/linux-ubuntu-install?pivots=os-linux-ubuntu-2404&tabs=dotnet9)
 
-First, you need to run the following commands to add the Microsoft package signing key to your list of trusted keys and add the package repository.
+NET is available in the Ubuntu .NET backports package repository. To add the repository, open a terminal and run the following command:
 
 ```sh
-wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-sudo dpkg -i packages-microsoft-prod.deb
-rm packages-microsoft-prod.deb
+  sudo add-apt-repository ppa:dotnet/backports
 ```
 
-> NOTE
->
-> You need to specify the ubuntu version of your Jenkins.
+Install the .NET SDK 9.0
 
-Then, the .NET SDK allows you to develop apps with .NET. If you install the .NET SDK, you don't need to install the corresponding runtime. To install the .NET SDK, run the following commands:
-
-```sh
-sudo apt-get update; \
-  sudo apt-get install -y apt-transport-https && \
+```bash
   sudo apt-get update && \
-  sudo apt-get install -y dotnet-sdk-6.0
-```
-
-> NOTE
->
-> Please note, you need to have the v3.1 to build this application.
-
-### Install DotNet SDK 3.1
-
-Open a terminal and run the following commands to setup the 20.04 repositories
-
-```bash
- sudo wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
- sudo dpkg -i packages-microsoft-prod.deb
-```
-
-Install the .NET Core SDK
-
-```bash
- sudo add-apt-repository universe
- sudo apt-get update
- sudo apt-get install apt-transport-https
- sudo apt-get update
- sudo apt-get install dotnet-sdk-3.1
+  sudo apt-get install -y dotnet-sdk-9.0
 ```
 
 **Build Pipeline**
@@ -82,7 +51,7 @@ pipeline {
         stage('Publish') {
             steps{
                 sh 'dotnet publish ./apis/poi/web/poi.csproj --configuration Release --no-restore'
-                sh 'ls -la ./apis/poi/web/bin/Release/netcoreapp3.1/publish/'
+                sh 'ls -la ./apis/poi/web/bin/Release/net9.0/publish/'
             }
         }
     }

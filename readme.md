@@ -29,7 +29,7 @@ pipeline {
         stage('Git checkout') {
             steps{
                 // Get source code from a GitHub repository
-                git branch:'main', url:'https://github.com/RayMaAU/openhack-devops-team.git'
+                git branch:'main', url:'https://github.com/WilliamDJR/openhack-devops-team.git'
             }
         }
         
@@ -80,7 +80,7 @@ pipeline {
     stages {
         stage('Git Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/RayMaAU/openhack-devops-team.git'
+                git branch: 'main', url: 'https://github.com/WilliamDJR/openhack-devops-team.git'
             }
         }
         
@@ -143,7 +143,7 @@ pipeline {
         stage('Git checkout') {
             steps{
                 // Get source code from a GitHub repository
-                git branch:'main', url:'https://github.com/RayMaAU/openhack-devops-team.git'
+                git branch:'main', url:'https://github.com/WilliamDJR/openhack-devops-team.git'
             }
         }
         

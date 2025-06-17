@@ -92,7 +92,8 @@ pipeline {
 ## user-java
 
 The application is for Java 11. We will use a docker agent for this example pipeline, so even you only have Java 17 installed you can still get the right results
-Jenkins > Manage Jenkins > Plugins > Available
+
+**NOTE**  Jenkins > Manage Jenkins > Plugins > Available
 Search for Docker Pipeline
 Install and restart if necessary
 
